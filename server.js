@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/currency-exchange', {
+mongoose.connect('your-mongodb-atlas-connection-string-here', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
