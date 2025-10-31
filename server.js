@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect('your-mongodb-atlas-connection-string-here', {
+mongoose.connect('mongodb+srv://vedmanrt24_db_user:8850490110@cluster0.ok61xlh.mongodb.net/currency-exchange?appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -52,7 +52,19 @@ app.post('/api/auth/signup', async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json({ message: 'User created successfully' });
+
+// Create JWT token for auto-login after signup
+const token = jwt.sign(
+  { userId: newUser._id, username: newUser.username },
+  'your-secret-key-change-this-in-production',
+  { expiresIn: '24h' }
+);
+
+res.status(201).json({ 
+  message: 'User created successfully',
+  token,
+  username: newUser.username
+});
 
   } catch (error) {
     console.error('Signup error:', error);
